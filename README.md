@@ -1,7 +1,7 @@
 # redjango
 
 ```
-npm run build
+python manage.py start
 python manage.py collectstatic
 python manage.py migrate
 pythom manage.py createsuperuser
