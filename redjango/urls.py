@@ -25,8 +25,8 @@ def index_view(request):
 
 
 urlpatterns = [
-    path('', index_view, name='index'), # connect to react 1st way
+    path('', index_view, name='index'),
     path('admin/', admin.site.urls),
     # place in the end
-    # re_path('.*', TemplateView.as_view(template_name='dist/index.html')), # connect to react 2nd way
+    re_path('.*', TemplateView.as_view(template_name='dist/index.html')),
 ]

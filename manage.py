@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import subprocess
 
 
 def main():
@@ -17,6 +18,16 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+def custom():
+    """sync between react & django"""
+    if sys.argv[1] == 'sync':
+        subprocess.run("rm -rf dist", shell=True, check=True, cwd="frontend")
+        subprocess.run("npm run build", shell=True, check=True, cwd="frontend")
+        subprocess.run("python manage.py collectstatic --noinput", shell=True, check=True, cwd=".")
+        subprocess.run("python manage.py runserver", shell=True, check=True, cwd=".")
+        print("----------------\nSUCCESS\n----------------")
+
 
 if __name__ == '__main__':
+    custom()
     main()
