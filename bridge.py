@@ -9,6 +9,29 @@ bridge between django & react
 react_path = Path("frontend")
 
 
+def bridge():
+    """
+    Synchronize React and Django when changes are made to React.
+    stop your django server first.
+    """
+    if sys.argv[1] == "update":
+        subprocess.run("rm -rf dist", shell=True, check=True, cwd=react_path)
+        base_toggle()
+        subprocess.run("npm run build", shell=True, check=True, cwd=react_path)
+        base_toggle()
+        subprocess.run("python manage.py collectstatic --noinput", shell=True, check=True, cwd=".")
+        subprocess.run("python manage.py runserver", shell=True, check=True, cwd=".")
+
+    elif sys.argv[1] == "build":
+        """
+        Build the react with correct base variable
+        """
+        base_toggle()
+        subprocess.run("npm run build", shell=True, check=True, cwd=react_path)
+        base_toggle()
+        print("-------------------------\ncommand: 'build' SUCCESS\n-------------------------")
+        
+
 def base_toggle():
     """
     comment toggle on the `base` variable in `vite.config.js` for Django static file purposes.
@@ -36,22 +59,3 @@ def base_toggle():
     # rewrite
     with open(file_path, 'w') as file:
         file.writelines(new_lines)
-
-
-def sync():
-    """
-    sync between react & django 
-    """
-    if sys.argv[1] == sync.__name__:
-        subprocess.run("rm -rf dist", shell=True, check=True, cwd=react_path)
-        base_toggle()
-        subprocess.run("npm run build", shell=True, check=True, cwd=react_path)
-        base_toggle()
-        subprocess.run("python manage.py collectstatic --noinput", shell=True, check=True, cwd=".")
-        subprocess.run("python manage.py runserver", shell=True, check=True, cwd=".")
-    elif sys.argv[1] == "start":
-        base_toggle()
-        subprocess.run("npm run build", shell=True, check=True, cwd=react_path)
-        base_toggle()
-        print("-------------------------\ncommand: 'start' SUCCESS\n-------------------------")
-        

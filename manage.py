@@ -2,7 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from bridge import sync
+from bridge import bridge
 
 
 def main():
@@ -20,5 +20,5 @@ def main():
 
 
 if __name__ == '__main__':
-    sync()
+    bridge()
     main()
